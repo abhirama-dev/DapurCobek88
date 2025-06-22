@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 22 Jun 2025 pada 17.10
+-- Waktu pembuatan: 22 Jun 2025 pada 17.55
 -- Versi server: 10.4.32-MariaDB
 -- Versi PHP: 8.2.12
 
@@ -42,10 +42,13 @@ CREATE TABLE `admin` (
 CREATE TABLE `barang` (
   `kdbrg` varchar(20) NOT NULL,
   `nmbrg` varchar(100) NOT NULL,
-  `satuankecil` enum('butir','potong','ekor','buah','gram','sachet','bungkus','porsi') NOT NULL,
-  `stok` smallint(5) UNSIGNED DEFAULT NULL,
-  `hargabelisatuan` decimal(12,2) UNSIGNED NOT NULL,
+  `satuanbesar` enum('kg','biji','bungkus') NOT NULL,
+  `stok` smallint(5) UNSIGNED NOT NULL,
+  `hargabeli` decimal(12,2) NOT NULL,
   `hargajualsatuan` decimal(12,2) UNSIGNED NOT NULL,
+  `satuankecil` enum('butir','potong','ekor','buah','gram','sachet','bungkus','porsi') NOT NULL,
+  `stoksatuan` smallint(5) UNSIGNED NOT NULL,
+  `hargabelisatuan` decimal(12,2) UNSIGNED NOT NULL,
   `status` enum('ada','tidak') NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
