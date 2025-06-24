@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 24 Jun 2025 pada 17.56
+-- Waktu pembuatan: 24 Jun 2025 pada 18.32
 -- Versi server: 10.4.21-MariaDB
 -- Versi PHP: 8.0.10
 
@@ -249,7 +249,9 @@ ALTER TABLE `admin`
 -- Indeks untuk tabel `barang`
 --
 ALTER TABLE `barang`
-  ADD PRIMARY KEY (`kdbrg`);
+  ADD PRIMARY KEY (`kdbrg`),
+  ADD KEY `idx_nama_barang` (`nmbrg`),
+  ADD KEY `idx_status_barang` (`status`);
 
 --
 -- Indeks untuk tabel `faktur_konsumen`
@@ -277,14 +279,14 @@ ALTER TABLE `supplier`
 --
 ALTER TABLE `transaksi_konsumen`
   ADD KEY `nofaktur_keluar` (`nofaktur_keluar`),
-  ADD KEY `kdbrg` (`kdbrg`);
+  ADD KEY `idx_kdbrg_konsumen` (`kdbrg`);
 
 --
 -- Indeks untuk tabel `transaksi_supplier`
 --
 ALTER TABLE `transaksi_supplier`
   ADD KEY `nofaktur_masuk` (`nofaktur_masuk`),
-  ADD KEY `kdbrg` (`kdbrg`);
+  ADD KEY `idx_kdbrg_supplier` (`kdbrg`);
 
 --
 -- Ketidakleluasaan untuk tabel pelimpahan (Dumped Tables)
