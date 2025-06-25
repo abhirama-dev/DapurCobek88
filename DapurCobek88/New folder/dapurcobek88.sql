@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 24 Jun 2025 pada 18.32
+-- Waktu pembuatan: 25 Jun 2025 pada 02.35
 -- Versi server: 10.4.21-MariaDB
 -- Versi PHP: 8.0.10
 
@@ -102,6 +102,19 @@ CREATE TABLE `supplier` (
 CREATE TABLE `total_kulak_harian` (
 `tanggal_faktur` date
 ,`total_harian` decimal(34,2)
+);
+
+-- --------------------------------------------------------
+
+--
+-- Stand-in struktur untuk tampilan `total_labarugi_harian`
+-- (Lihat di bawah untuk tampilan aktual)
+--
+CREATE TABLE `total_labarugi_harian` (
+`tanggal_faktur` date
+,`total_penjualan` decimal(34,2)
+,`total_kulak` decimal(34,2)
+,`total_laba` decimal(35,2)
 );
 
 -- --------------------------------------------------------
@@ -207,6 +220,15 @@ CREATE TABLE `view_barang_tidak_ada` (
 DROP TABLE IF EXISTS `total_kulak_harian`;
 
 CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `total_kulak_harian`  AS SELECT `transaksi_supplier`.`tanggal_faktur` AS `tanggal_faktur`, sum(`transaksi_supplier`.`tharga`) AS `total_harian` FROM `transaksi_supplier` GROUP BY `transaksi_supplier`.`tanggal_faktur` ORDER BY `transaksi_supplier`.`tanggal_faktur` DESC ;
+
+-- --------------------------------------------------------
+
+--
+-- Struktur untuk view `total_labarugi_harian`
+--
+DROP TABLE IF EXISTS `total_labarugi_harian`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `total_labarugi_harian`  AS SELECT coalesce(`tp`.`tanggal_faktur`,`tk`.`tanggal_faktur`) AS `tanggal_faktur`, ifnull(`tp`.`total_harian`,0) AS `total_penjualan`, ifnull(`tk`.`total_harian`,0) AS `total_kulak`, ifnull(`tp`.`total_harian`,0) - ifnull(`tk`.`total_harian`,0) AS `total_laba` FROM (`total_penjualan_harian` `tp` left join `total_kulak_harian` `tk` on(`tp`.`tanggal_faktur` = `tk`.`tanggal_faktur`)) ;
 
 -- --------------------------------------------------------
 
